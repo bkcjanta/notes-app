@@ -56,7 +56,7 @@ export const Navbar = () => {
                             {!user ? <Link to='/'> <Box px={2} py={1} rounded={'md'} _hover={{ color: "white", bg: "gray.700" }}><Heading size={["sm", "md", "md"]} _hover={{ color: "while", bg: "gray.700" }}>Home</Heading> </Box></Link> :
                                 <Text size={["sm", "md", "md"]} _hover={{ color: "while", bg: "gray.700" }}>Hi! {user && user.email.split("@")[0]}</Text>
                             }
-                            {user ? <Link to='/dashbord'> <Box px={2} py={1} rounded={'md'} _hover={{ color: "white", bg: "gray.700" }}><Heading size={["sm", "md", "md"]} _hover={{ color: "while", bg: "gray.700" }}>Dashboard</Heading></Box></Link> :
+                            {user ? <Link to='/dashboard'> <Box px={2} py={1} rounded={'md'} _hover={{ color: "white", bg: "gray.700" }}><Heading size={["sm", "md", "md"]} _hover={{ color: "while", bg: "gray.700" }}>Dashboard</Heading></Box></Link> :
                                 <Link to={'/signup'}> <Box px={2} py={1} rounded={'md'} _hover={{ color: "white", bg: "gray.700" }}><Heading size={["sm", "md", "md"]} _hover={{ color: "while", bg: "gray.700" }}>Register</Heading></Box></Link>}
                             {!user ? <Link to={'/login'}> <Box px={2} py={1} rounded={'md'} _hover={{ color: "white", bg: "gray.700" }}><Heading size={["sm", "md", "md"]} _hover={{ color: "while", bg: "gray.700" }}>Login</Heading> </Box></Link> :
                                 <Button onClick={logout} colorScheme='blue'>Logout</Button>}

@@ -19,6 +19,7 @@ import {
     TabPanels,
     TabPanel,
     TabIndicator,
+    useToast
 } from '@chakra-ui/react';
 import { useState } from 'react';
 
@@ -29,23 +30,76 @@ import { auth } from '../firebase';
 export default function Register() {
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
-    const [loading, setLoading] = useState(false)
     const [password, setPassword] = useState('')
+    const [password1, setPassword1] = useState('')
+    const [loading, setLoading] = useState(false)
+    const toast = useToast()
+
     console.log(auth.currentUser);
     const SignUp = async () => {
-        if (email && password) {
+        if (!email && !password && !password1) {
+            toast({
+                title: "Please fill all the fields",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+            })
+        } else if (password !== password1) {
+            toast({
+                title: "Passwords do not match",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+                position: "top-right"
+            })
+        } else if (password.length < 6) {
+            toast({
+                title: "Password should be atleast 6 characters",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+                position: "top-right"
+            })
+        } else {
             setLoading(true)
             try {
                 const user = await createUserWithEmailAndPassword(auth, email, password)
-                console.log(user)
-                navigate("/login");
+                if (user) {
+                    navigate("/login");
+                    toast({
+                        title: "Account Created Successfully",
+                        status: "success",
+                        duration: 9000,
+                        isClosable: true,
+                        position: "top-right"
+                    })
+                } else {
+                    toast({
+                        title: "Invalid Credentials",
+                        status: "error",
+                        duration: 9000,
+                        isClosable: true,
+                        position: "top-right"
+                    })
+                    setEmail('')
+                    setPassword('')
+                    setPassword1('')
+                }
             } catch (err) {
                 console.log(err)
+                toast({
+                    title: "Somthing went wrong",
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                    position: "top-right"
+                })
+                setEmail('')
+                setPassword('')
+                setPassword1('')
             }
-        } else {
-            alert("Please fill all the fields")
         }
-        setLoading(false)
+
     }
     return (
         <Box w={"100%"} bg={"blue.100"} h={"100vh"} alignItems={"center"} display={"flex"} m={"auto"} justifyContent={"center"}>
@@ -83,7 +137,7 @@ export default function Register() {
                                             <VStack spacing={"5"}>
                                                 <Input focusBorderColor='teal.400' placeholder='Email' bg={"transparent"} border={"2px"} borderColor={"teal"} onChange={(e) => setEmail(e.target.value)} value={email} />
                                                 <Input focusBorderColor='teal.400' placeholder='Password' type={"password"} border={"2px"} borderColor={"teal"} onChange={(e) => setPassword(e.target.value)} value={password} />
-                                                <Input focusBorderColor='teal.400' placeholder='Confirm Password' type={"password"} border={"2px"} borderColor={"teal"} onChange={(e) => setPassword(e.target.value)} value={password} />
+                                                <Input focusBorderColor='teal.400' placeholder='Confirm Password' type={"password"} border={"2px"} borderColor={"teal"} onChange={(e) => setPassword1(e.target.value)} value={password1} />
                                             </VStack>
                                             <Button isLoading={loading} onClick={SignUp} w="100%" colorScheme="teal" variant="solid" m={"auto"}>Sign Up</Button>
                                         </Stack>

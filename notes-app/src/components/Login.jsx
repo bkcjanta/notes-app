@@ -19,6 +19,8 @@ import {
     TabPanels,
     TabPanel,
     TabIndicator,
+    Toast,
+    useToast,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -28,30 +30,55 @@ export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
+    const toast = useToast()
     const navigate = useNavigate()
     console.log(auth.currentUser)
     const login = async () => {
-        if (email && password) {
-            setLoading(true)
-            try {
-                const user = await signInWithEmailAndPassword(auth, email, password)
-                if (user) {
-                    navigate("/dashboard");
-                } else {
-                    alert("Invalid Credentials")
-                    setEmail('')
-                    setPassword('')
-                }
-            } catch (err) {
-                console.log(err)
-                alert("Somthing went wrong")
-                setEmail('')
-                setPassword('')
-            }
+        if (!email && !password) {
+            toast({
+                title: "Please fill all the fields",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+                position: "top-right"
+
+            })
+        } else if (password.length < 6) {
+            toast({
+                title: "Password should be atleast 6 characters",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+                position: "top-right"
+
+            })
         } else {
-            alert("Please fill all the fields")
+            try {
+                setLoading(true)
+                const user = await signInWithEmailAndPassword(auth, email, password)
+                toast({
+                    title: "Login Successful",
+                    status: "success",
+                    duration: 9000,
+                    isClosable: true,
+                    position: "top-right"
+
+                })
+                navigate('/')
+                setLoading(false);
+            } catch (err) {
+                toast({
+                    title: err.message,
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                    position: "top-right"
+
+                })
+                setLoading(false)
+            }
+
         }
-        setLoading(false)
     }
 
     return (
