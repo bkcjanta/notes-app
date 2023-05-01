@@ -27,10 +27,12 @@ import { auth } from '../firebase';
 export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     console.log(auth.currentUser)
     const login = async () => {
         if (email && password) {
+            setLoading(true)
             try {
                 const user = await signInWithEmailAndPassword(auth, email, password)
                 if (user) {
@@ -49,6 +51,7 @@ export default function Login() {
         } else {
             alert("Please fill all the fields")
         }
+        setLoading(false)
     }
 
     return (
@@ -75,7 +78,7 @@ export default function Login() {
                                                 <Input focusBorderColor='teal.400' placeholder='Password' type='password' border={"2px"}
                                                     borderColor={"teal"} onChange={(e) => setPassword(e.target.value)} />
                                             </VStack>
-                                            <Button onClick={login} w="100%" colorScheme="teal" variant="solid" m={"auto"}>Login</Button>
+                                            <Button isLoading={loading} onClick={login} w="100%" colorScheme="teal" variant="solid" m={"auto"}>Login</Button>
                                         </Stack>
                                     </Stack>
                                 </Box>

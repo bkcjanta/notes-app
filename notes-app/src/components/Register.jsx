@@ -29,11 +29,12 @@ import { auth } from '../firebase';
 export default function Register() {
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
-
+    const [loading, setLoading] = useState(false)
     const [password, setPassword] = useState('')
     console.log(auth.currentUser);
     const SignUp = async () => {
         if (email && password) {
+            setLoading(true)
             try {
                 const user = await createUserWithEmailAndPassword(auth, email, password)
                 console.log(user)
@@ -44,6 +45,7 @@ export default function Register() {
         } else {
             alert("Please fill all the fields")
         }
+        setLoading(false)
     }
     return (
         <Box w={"100%"} bg={"blue.100"} h={"100vh"} alignItems={"center"} display={"flex"} m={"auto"} justifyContent={"center"}>
@@ -83,7 +85,7 @@ export default function Register() {
                                                 <Input focusBorderColor='teal.400' placeholder='Password' type={"password"} border={"2px"} borderColor={"teal"} onChange={(e) => setPassword(e.target.value)} value={password} />
                                                 <Input focusBorderColor='teal.400' placeholder='Confirm Password' type={"password"} border={"2px"} borderColor={"teal"} onChange={(e) => setPassword(e.target.value)} value={password} />
                                             </VStack>
-                                            <Button onClick={SignUp} w="100%" colorScheme="teal" variant="solid" m={"auto"}>Sign Up</Button>
+                                            <Button isLoading={loading} onClick={SignUp} w="100%" colorScheme="teal" variant="solid" m={"auto"}>Sign Up</Button>
                                         </Stack>
                                     </Stack>
                                 </Box>
