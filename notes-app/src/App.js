@@ -8,11 +8,10 @@ import Register from './components/Register';
 import { useEffect } from 'react';
 import useAuth from './useAuth';
 import { Navbar } from './components/Navbar';
+import Dashboard from './components/Dashboard';
 
 
 function App() {
-  const user = useAuth()
-  console.log(user)
 
   return (
     <div className="App">
@@ -21,7 +20,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path='/signup' element={<Register />} />
-        <Route path='/dashboard' element />
+        <Route path='/dashboard' element={<Dashboard />} />
       </Routes>
     </div>
   );
