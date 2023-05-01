@@ -1,19 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
-import { getDatabase, ref, set } from 'firebase/database';
-import { app } from './firebase';
+import { getDatabase } from 'firebase/database';
+import { app, database, auth } from './firebase';
+import Login from './components/Login';
+import { Routes, Route } from 'react-router-dom';
+import Home from './components/Home';
+import Register from './components/Register';
+import { useEffect } from 'react';
+import useAuth from './useAuth';
+import { Navbar } from './components/Navbar';
+
 
 function App() {
-  const db = getDatabase(app);
-  const setData = () => {
-    set(ref(db, 'notes/'), {
-      title: 'Hello world!',
-      body: 'This is a.'
-    });
-  }
+  const user = useAuth()
+  console.log(user)
+
   return (
     <div className="App">
-      <button onClick={setData}>Set Data</button>
+      <Navbar></Navbar>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path='/signup' element={<Register />} />
+        <Route path='/dashboard' element />
+      </Routes>
     </div>
   );
 }
