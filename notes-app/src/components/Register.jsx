@@ -88,7 +88,7 @@ export default function Register() {
             } catch (err) {
                 console.log(err)
                 toast({
-                    title: "Somthing went wrong",
+                    title: `${err.message}`,
                     status: "error",
                     duration: 9000,
                     isClosable: true,
@@ -99,6 +99,7 @@ export default function Register() {
                 setPassword1('')
             }
         }
+        setLoading(false)
 
     }
     return (

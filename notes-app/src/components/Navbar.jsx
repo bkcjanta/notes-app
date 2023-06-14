@@ -25,7 +25,6 @@ export const Navbar = () => {
                 setUser(user)
             } else {
                 setUser(null)
-                navigate("/login")
             }
         })
     }, [])

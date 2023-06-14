@@ -1,4 +1,4 @@
-import { Button, Box, Input, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Textarea, useDisclosure, Modal, Accordion, AccordionItem, AccordionButton, AccordionPanel, Heading, HStack } from '@chakra-ui/react'
+import { Button, Box, Input, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Textarea, useDisclosure, Modal, Accordion, AccordionItem, AccordionButton, AccordionPanel, Heading, HStack, Flex } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { database } from '../firebase'
 import { collection, addDoc, getDocs, query, orderBy, deleteDoc, doc, updateDoc } from "firebase/firestore";
@@ -30,6 +30,7 @@ const Dashboard = () => {
                 tempDoc.push({ ...doc.data(), id: doc.id });
             });
             setNotes(tempDoc);
+
             console.log(tempDoc)
         };
         if (uid) {
@@ -116,13 +117,14 @@ const Dashboard = () => {
             onClose()
 
         }
+        setLoading(false);
     }
 
 
     return (
         <div>
             <Box w={"100%"} p={"10px"}>
-                <Button colorScheme='green' onClick={onOpen} >CREATE NOTE +</Button>
+                <Flex mb={"10px"} w="100%" justifyContent={"center"} > <Button size={["sm", "md", "md"]} colorScheme='green' onClick={onOpen} >CREATE NOTE +</Button></Flex>
 
                 <Box>
                     <Accordion allowToggle w={["95%", "80%", "70%"]} m={"auto"} spacing={10}>
